@@ -3,6 +3,7 @@ import { auth, db } from '../services/firebase';
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auditLogService, AUDIT_ACTIONS } from '../services/auditLogService';
+import Loading from '../components/Common/Loading';
 
 const AuthContext = createContext();
 
@@ -81,11 +82,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ currentUser, userRole, login, logout, loading }}>
-      {loading ? (
-        <div className="app-loading">Loading...</div>
-      ) : (
-        children
-      )}
+      {loading ? <Loading message="Authenticating…" /> : children}
     </AuthContext.Provider>
   );
 };

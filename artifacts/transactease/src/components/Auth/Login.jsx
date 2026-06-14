@@ -107,6 +107,7 @@ const Login = () => {
             src="/wimpys-logo.png"
             alt="Wimpy's"
             className="mx-auto mb-3 h-16 object-contain"
+            onError={(e) => { e.currentTarget.style.display = 'none'; }}
           />
           <h1 className="login-title">TransactEase</h1>
           <p className="login-subtitle">Wimpy&apos;s Burger &amp; Ice Cream House</p>

@@ -61,7 +61,7 @@ const AppRoutes = () => {
             <ProtectedRoute allowedRoles={ADMIN_MANAGER}><ReportsPage /></ProtectedRoute>
           } />
           <Route path="/discount-management" element={
-            <ProtectedRoute requiredRole={USER_ROLES.ADMIN}><DiscountManagementPage /></ProtectedRoute>
+            <ProtectedRoute allowedRoles={ADMIN_ONLY}><DiscountManagementPage /></ProtectedRoute>
           } />
           <Route path="/forecast" element={
             <ProtectedRoute allowedRoles={ADMIN_MANAGER}><ForecastPage /></ProtectedRoute>
@@ -112,7 +112,7 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <Router>
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <div className="App">
             <AppRoutes />
             <Toaster
