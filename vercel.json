@@ -1,5 +1,5 @@
 {
-  "installCommand": "npm install -g pnpm && pnpm install",
+  "framework": null,
   "buildCommand": "pnpm --filter @workspace/transactease run build",
   "outputDirectory": "artifacts/transactease/dist/public",
   "rewrites": [
