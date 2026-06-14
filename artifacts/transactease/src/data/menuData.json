@@ -1,0 +1,164 @@
+{
+  "categories": [
+    "Soups & Salads",
+    "Burgers",
+    "Noodles & Pasta",
+    "Short Orders",
+    "Sandwiches",
+    "Breakfast",
+    "Rice & Sides",
+    "Combo Meals",
+    "Beverages",
+    "Ice Cream Delights"
+  ],
+  "products": [
+    { "name": "Hototay", "category": "Soups & Salads", "price": 165 },
+    { "name": "Sotanghon", "category": "Soups & Salads", "price": 130 },
+    { "name": "Chicken Mami", "category": "Soups & Salads", "price": 98 },
+    { "name": "Beef Mami", "category": "Soups & Salads", "price": 148 },
+    { "name": "Bihon Soup", "category": "Soups & Salads", "price": 98 },
+    { "name": "Lomi", "category": "Soups & Salads", "price": 120 },
+    { "name": "Chef's Salad", "category": "Soups & Salads", "price": 220 },
+    { "name": "Green Salad", "category": "Soups & Salads", "price": 160 },
+
+    {
+      "name": "Junior Burger",
+      "category": "Burgers",
+      "price": 65,
+      "variants": [
+        { "id": "regular", "name": "Regular", "price": 65 },
+        { "id": "with-cheese", "name": "With Cheese", "price": 75 }
+      ]
+    },
+    {
+      "name": "Super Burger",
+      "category": "Burgers",
+      "price": 100,
+      "variants": [
+        { "id": "regular", "name": "Regular", "price": 100 },
+        { "id": "with-cheese", "name": "With Cheese", "price": 110 }
+      ]
+    },
+    {
+      "name": "Double Burger",
+      "category": "Burgers",
+      "price": 120,
+      "variants": [
+        { "id": "regular", "name": "Regular", "price": 120 },
+        { "id": "with-cheese", "name": "With Cheese", "price": 140 }
+      ]
+    },
+    { "name": "Add Fries & Salad", "category": "Burgers", "price": 70 },
+
+    { "name": "Spaghetti in Beef Sauce", "category": "Noodles & Pasta", "price": 90 },
+    { "name": "Spaghetti with Meatballs", "category": "Noodles & Pasta", "price": 125 },
+    { "name": "Pancit Miki", "category": "Noodles & Pasta", "price": 115 },
+    { "name": "Pancit Canton", "category": "Noodles & Pasta", "price": 130 },
+    { "name": "Pancit Bihon", "category": "Noodles & Pasta", "price": 115 },
+    { "name": "Pancit Palabok", "category": "Noodles & Pasta", "price": 140 },
+    { "name": "Sotanghon Guisado", "category": "Noodles & Pasta", "price": 159 },
+
+    {
+      "name": "Fried Chicken",
+      "category": "Short Orders",
+      "price": 175,
+      "variants": [
+        { "id": "2-pcs", "name": "2 pcs", "price": 175 },
+        { "id": "half", "name": "Half", "price": 340 }
+      ]
+    },
+    { "name": "Pork Sisig", "category": "Short Orders", "price": 180 },
+    { "name": "Shanghai Lumpia", "category": "Short Orders", "price": 170 },
+    { "name": "Pork Sinigang", "category": "Short Orders", "price": 550 },
+    { "name": "Lechon Kawali", "category": "Short Orders", "price": 280 },
+    { "name": "Sweet & Sour Pork", "category": "Short Orders", "price": 280 },
+    { "name": "Kalderetang Baka", "category": "Short Orders", "price": 300 },
+    { "name": "Sweet & Sour Shrimp", "category": "Short Orders", "price": 298 },
+    { "name": "Camaron", "category": "Short Orders", "price": 300 },
+    { "name": "Chopsuey", "category": "Short Orders", "price": 300 },
+    { "name": "Shrimp Fu Yong", "category": "Short Orders", "price": 300 },
+    { "name": "Chicken Fu Yong", "category": "Short Orders", "price": 300 },
+
+    { "name": "Clubhouse", "category": "Sandwiches", "price": 130 },
+    { "name": "Ham & Cheese", "category": "Sandwiches", "price": 75 },
+    { "name": "Ham & Egg", "category": "Sandwiches", "price": 75 },
+    { "name": "BLT", "category": "Sandwiches", "price": 85 },
+    { "name": "Bacon & Egg", "category": "Sandwiches", "price": 105 },
+    {
+      "name": "Creamy Chicken",
+      "category": "Sandwiches",
+      "price": 45,
+      "variants": [
+        { "id": "small", "name": "Small", "price": 45 },
+        { "id": "regular", "name": "Regular", "price": 85 }
+      ]
+    },
+    {
+      "name": "Tuna Delight",
+      "category": "Sandwiches",
+      "price": 48,
+      "variants": [
+        { "id": "small", "name": "Small", "price": 48 },
+        { "id": "regular", "name": "Regular", "price": 90 }
+      ]
+    },
+
+    { "name": "American Breakfast", "category": "Breakfast", "price": 110 },
+    { "name": "Chicken & Pork Adobo", "category": "Breakfast", "price": 150 },
+
+    { "name": "French Fries", "category": "Rice & Sides", "price": 46 },
+    { "name": "Potato Salad", "category": "Rice & Sides", "price": 60 },
+    { "name": "Shanghai Fried Rice", "category": "Rice & Sides", "price": 85 },
+    { "name": "Garlic Rice", "category": "Rice & Sides", "price": 55 },
+    { "name": "Plain Rice (Half)", "category": "Rice & Sides", "price": 40 },
+
+    { "name": "Jr. Cheeseburger & Spaghetti", "category": "Combo Meals", "price": 130 },
+    { "name": "Chicken & Spaghetti", "category": "Combo Meals", "price": 140 },
+    {
+      "name": "Porkchop Dinner",
+      "category": "Combo Meals",
+      "price": 160,
+      "variants": [
+        { "id": "solo", "name": "Solo", "price": 160 },
+        { "id": "dinner", "name": "Dinner", "price": 290 }
+      ]
+    },
+    { "name": "Executive Lunch Porkchop", "category": "Combo Meals", "price": 215 },
+    { "name": "Pork Barbeque", "category": "Combo Meals", "price": 175 },
+    {
+      "name": "Chicken Dinner",
+      "category": "Combo Meals",
+      "price": 110,
+      "variants": [
+        { "id": "solo", "name": "Solo", "price": 110 },
+        { "id": "dinner", "name": "Dinner", "price": 210 }
+      ]
+    },
+    { "name": "Executive Lunch Chicken", "category": "Combo Meals", "price": 215 },
+    { "name": "Chicken Barbeque", "category": "Combo Meals", "price": 210 },
+    { "name": "Burger Steak", "category": "Combo Meals", "price": 175 },
+    { "name": "Jr. Burger Steak", "category": "Combo Meals", "price": 105 },
+    { "name": "Seafood Platter", "category": "Combo Meals", "price": 310 },
+    { "name": "Green Pepper Steak", "category": "Combo Meals", "price": 275 },
+    { "name": "Fried Shrimp Platter", "category": "Combo Meals", "price": 290 },
+
+    { "name": "Iced Tea", "category": "Beverages", "price": 45 },
+    { "name": "Softdrinks (Cup)", "category": "Beverages", "price": 45 },
+    { "name": "Softdrinks (Can)", "category": "Beverages", "price": 75 },
+    { "name": "Instant Coffee", "category": "Beverages", "price": 25 },
+    { "name": "Pineapple Juice", "category": "Beverages", "price": 75 },
+    { "name": "Mango Juice", "category": "Beverages", "price": 80 },
+    { "name": "Orange Juice", "category": "Beverages", "price": 60 },
+    { "name": "Hot Milo", "category": "Beverages", "price": 45 },
+    { "name": "San Miguel Beer", "category": "Beverages", "price": 85 },
+    { "name": "San Miguel Light", "category": "Beverages", "price": 95 },
+
+    { "name": "Banana Split", "category": "Ice Cream Delights", "price": 140 },
+    { "name": "Ice Cream Scoop", "category": "Ice Cream Delights", "price": 45 },
+    { "name": "Chocolate Sundae", "category": "Ice Cream Delights", "price": 90 },
+    { "name": "Strawberry Sundae", "category": "Ice Cream Delights", "price": 90 },
+    { "name": "Ice Cream Shake", "category": "Ice Cream Delights", "price": 110 },
+    { "name": "Halo-Halo", "category": "Ice Cream Delights", "price": 70 },
+    { "name": "Mais con Yelo", "category": "Ice Cream Delights", "price": 70 }
+  ]
+}
