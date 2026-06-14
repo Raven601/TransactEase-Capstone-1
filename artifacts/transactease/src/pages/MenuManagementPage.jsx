@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { CheckCircle2, ChevronDown, ChevronUp, Loader2, Package, Pencil, Plus, Search, Trash2, X, XCircle } from 'lucide-react';
+import { CheckCircle2, ChevronDown, ChevronUp, Lock, Loader2, Package, Pencil, Plus, Search, Trash2, X, XCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Layout from '../components/Common/Layout';
 import { productService } from '../services/productService';
 import { useAuth } from '../context/AuthContext';
-import { CATEGORY_LIST } from '../utils/constants';
+import { CATEGORY_LIST, USER_ROLES } from '../utils/constants';
 import { formatCurrency } from '../utils/helpers';
 
 const EMPTY_FORM = { name: '', category: CATEGORY_LIST[0], price: '', is_available: true };
@@ -99,6 +99,8 @@ const MenuFormModal = ({ editingId, form, setForm, onSave, onClose, saving }) =>
 
 const MenuManagementPage = () => {
   const { currentUser, userRole } = useAuth();
+  const isAdmin = userRole === USER_ROLES.ADMIN;
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -143,12 +145,14 @@ const MenuManagementPage = () => {
   };
 
   const openAdd = () => {
+    if (!isAdmin) return;
     setEditingId(null);
     setForm(EMPTY_FORM);
     setShowForm(true);
   };
 
   const openEdit = (product) => {
+    if (!isAdmin) return;
     setEditingId(product.id);
     setForm({
       name: product.name || '',
@@ -165,6 +169,7 @@ const MenuManagementPage = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
+    if (!isAdmin) { toast.error('Only admins can modify menu items'); return; }
     if (!form.name.trim()) { toast.error('Name is required'); return; }
     if (!form.price || isNaN(Number(form.price))) { toast.error('Valid price is required'); return; }
     setSaving(true);
@@ -192,6 +197,7 @@ const MenuManagementPage = () => {
   };
 
   const handleDelete = async (product) => {
+    if (!isAdmin) { toast.error('Only admins can delete menu items'); return; }
     if (!window.confirm(`Delete "${product.name}"?`)) return;
     try {
       await productService.deleteProduct(product.id, actor);
@@ -202,6 +208,7 @@ const MenuManagementPage = () => {
   };
 
   const handleToggleAvailable = async (product) => {
+    if (!isAdmin) { toast.error('Only admins can change availability'); return; }
     try {
       await productService.updateProduct(product.id, { is_available: !(product.isAvailable ?? product.is_available) }, actor);
     } catch (err) {
@@ -221,13 +228,23 @@ const MenuManagementPage = () => {
       title="Menu Management"
       subtitle={`${products.length} products across ${CATEGORY_LIST.length} categories`}
       actions={
-        <button onClick={openAdd} className="btn-primary inline-flex items-center gap-2 py-2.5">
-          <Plus className="h-4 w-4" />
-          Add Item
-        </button>
+        <div className="flex items-center gap-2">
+          {!isAdmin && (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#fde68a] bg-[#fefce8] px-3 py-1.5 text-xs font-semibold text-[#a16207]">
+              <Lock className="h-3.5 w-3.5" />
+              View only — admin access required to edit
+            </span>
+          )}
+          {isAdmin && (
+            <button onClick={openAdd} className="btn-primary inline-flex items-center gap-2 py-2.5">
+              <Plus className="h-4 w-4" />
+              Add Item
+            </button>
+          )}
+        </div>
       }
     >
-      {showForm && (
+      {showForm && isAdmin && (
         <MenuFormModal
           editingId={editingId}
           form={form}
@@ -279,7 +296,9 @@ const MenuManagementPage = () => {
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <Package className="h-12 w-12 text-[#fde68a]" />
           <p className="mt-4 font-semibold text-[#6b241d]">No items found</p>
-          <p className="mt-1 text-sm text-[#a16207]">Try a different search or category, or add a new item.</p>
+          <p className="mt-1 text-sm text-[#a16207]">
+            {isAdmin ? 'Try a different search or category, or add a new item.' : 'Try a different search or category.'}
+          </p>
         </div>
       ) : (
         <div className="overflow-hidden rounded-2xl border border-[#fde68a] bg-white shadow-sm">
@@ -297,7 +316,7 @@ const MenuManagementPage = () => {
                     Price <SortIcon field="price" />
                   </th>
                   <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3 text-right">Actions</th>
+                  {isAdmin && <th className="px-4 py-3 text-right">Actions</th>}
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#fef9c3]">
@@ -315,40 +334,56 @@ const MenuManagementPage = () => {
                       </td>
                       <td className="px-4 py-3 font-bold text-[#dc2626]">{formatCurrency(product.price)}</td>
                       <td className="px-4 py-3">
-                        <button
-                          onClick={() => handleToggleAvailable(product)}
-                          title="Toggle availability"
-                          className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold transition hover:opacity-80 ${
+                        {isAdmin ? (
+                          <button
+                            onClick={() => handleToggleAvailable(product)}
+                            title="Toggle availability"
+                            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold transition hover:opacity-80 ${
+                              available && !isOut
+                                ? 'bg-emerald-100 text-emerald-700'
+                                : 'bg-red-100 text-red-700'
+                            }`}
+                          >
+                            {available && !isOut ? (
+                              <><CheckCircle2 className="h-3.5 w-3.5" /> Available</>
+                            ) : (
+                              <><XCircle className="h-3.5 w-3.5" /> {isOut ? 'Out of Stock' : 'Unavailable'}</>
+                            )}
+                          </button>
+                        ) : (
+                          <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold ${
                             available && !isOut
                               ? 'bg-emerald-100 text-emerald-700'
                               : 'bg-red-100 text-red-700'
-                          }`}
-                        >
-                          {available && !isOut ? (
-                            <><CheckCircle2 className="h-3.5 w-3.5" /> Available</>
-                          ) : (
-                            <><XCircle className="h-3.5 w-3.5" /> {isOut ? 'Out of Stock' : 'Unavailable'}</>
-                          )}
-                        </button>
+                          }`}>
+                            {available && !isOut ? (
+                              <><CheckCircle2 className="h-3.5 w-3.5" /> Available</>
+                            ) : (
+                              <><XCircle className="h-3.5 w-3.5" /> {isOut ? 'Out of Stock' : 'Unavailable'}</>
+                            )}
+                          </span>
+                        )}
                       </td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center justify-end gap-2">
-                          <button
-                            onClick={() => openEdit(product)}
-                            className="action-button action-button-edit"
-                          >
-                            <Pencil className="mr-1 h-3.5 w-3.5" />
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDelete(product)}
-                            className="action-button action-button-delete"
-                          >
-                            <Trash2 className="mr-1 h-3.5 w-3.5" />
-                            Delete
-                          </button>
-                        </div>
-                      </td>
+                      {isAdmin && (
+                        <td className="px-4 py-3">
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              onClick={() => openEdit(product)}
+                              className="action-button action-button-edit"
+                            >
+                              <Pencil className="mr-1 h-3.5 w-3.5" />
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDelete(product)}
+                              className="action-button action-button-delete"
+                            >
+                              <Trash2 className="mr-1 h-3.5 w-3.5" />
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   );
                 })}
