@@ -1,0 +1,100 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function currentUserDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function currentRole() {
+      return currentUserDoc().role;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && currentRole() == 'admin';
+    }
+
+    function isAdminOrManager() {
+      return isAuthenticated() && currentRole() in ['admin', 'manager'];
+    }
+
+    function isAnyStaff() {
+      return isAuthenticated() && currentRole() in ['admin', 'manager', 'staff'];
+    }
+
+    // ── Users ─────────────────────────────────────────────────────────────────
+    // - Any authenticated user can create THEIR OWN user doc (first-admin setup).
+    // - Admins can also create docs for other users (staff creation via secondary Auth).
+    // - Staff cannot escalate their own role — only admins can change the role field.
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (
+        request.auth.uid == userId || isAdminOrManager()
+      );
+      allow create: if isAuthenticated() && (
+        request.auth.uid == userId || isAdmin()
+      );
+      allow update: if isAuthenticated() && (
+        isAdmin() ||
+        (request.auth.uid == userId && request.resource.data.role == resource.data.role)
+      );
+      allow delete: if isAdmin();
+    }
+
+    // ── Products / Menu ───────────────────────────────────────────────────────
+    // All staff can read (needed for POS & inventory views).
+    // Only admins/managers can create, update, or delete.
+    match /products/{productId} {
+      allow read: if isAnyStaff();
+      allow create, update, delete: if isAdminOrManager();
+    }
+
+    // ── Transactions ─────────────────────────────────────────────────────────
+    // All staff can create transactions (cashiers completing sales).
+    // All staff can read (history, reports).
+    // Only admins/managers can update or delete (corrections, voids).
+    match /transactions/{transactionId} {
+      allow read: if isAnyStaff();
+      allow create: if isAnyStaff();
+      allow update, delete: if isAdminOrManager();
+    }
+
+    // ── Audit Logs ────────────────────────────────────────────────────────────
+    // Append-only for all staff. Only admins/managers can read.
+    // No updates or deletes — audit trail must be immutable.
+    match /auditLogs/{logId} {
+      allow read: if isAdminOrManager();
+      allow create: if isAnyStaff();
+      allow update, delete: if false;
+    }
+
+    // ── Inventory Movements ───────────────────────────────────────────────────
+    // Created automatically on every stock change. Read by managers for reports.
+    // Immutable — no updates or deletes.
+    match /inventoryMovements/{movementId} {
+      allow read: if isAdminOrManager();
+      allow create: if isAnyStaff();
+      allow update, delete: if false;
+    }
+
+    // ── Discounts ─────────────────────────────────────────────────────────────
+    // All staff can read (needed at POS checkout).
+    // Only admins can manage discount rules.
+    match /discounts/{discountId} {
+      allow read: if isAnyStaff();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── QR Receipt public read ────────────────────────────────────────────────
+    // The QR receipt page is publicly accessible (no login required to scan a
+    // receipt). We allow reading a single transaction doc by ID without auth.
+    // Writing is still fully restricted to authenticated staff.
+    match /transactions/{transactionId} {
+      allow read: if true;
+    }
+  }
+}
