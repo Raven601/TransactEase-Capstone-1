@@ -1,5 +1,5 @@
 {
-  "framework": null,
+  "framework": "vite",
   "buildCommand": "pnpm --filter @workspace/transactease run build",
   "outputDirectory": "artifacts/transactease/dist",
   "rewrites": [
