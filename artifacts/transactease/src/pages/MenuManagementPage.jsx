@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { CheckCircle2, ChevronDown, ChevronUp, Database, Loader2, Package, Pencil, Plus, Search, Trash2, X, XCircle } from 'lucide-react';
+import { CheckCircle2, ChevronDown, ChevronUp, Loader2, Package, Pencil, Plus, Search, Trash2, X, XCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Layout from '../components/Common/Layout';
 import { productService } from '../services/productService';
-import { menuSeedService } from '../services/menuSeedService';
 import { useAuth } from '../context/AuthContext';
 import { CATEGORY_LIST } from '../utils/constants';
 import { formatCurrency } from '../utils/helpers';
@@ -110,7 +109,6 @@ const MenuManagementPage = () => {
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
-  const [seeding, setSeeding] = useState(false);
 
   useEffect(() => {
     const unsubscribe = productService.subscribeToProducts((snapshot) => {
@@ -211,22 +209,6 @@ const MenuManagementPage = () => {
     }
   };
 
-  const handleSeedMenu = async () => {
-    const already = await menuSeedService.isAlreadySeeded();
-    if (already) {
-      if (!window.confirm('Products already exist. Seed again and add more items?')) return;
-    }
-    setSeeding(true);
-    try {
-      const count = await menuSeedService.seedMenu();
-      toast.success(`Seeded ${count} menu items!`);
-    } catch (err) {
-      toast.error('Seed failed: ' + err.message);
-    } finally {
-      setSeeding(false);
-    }
-  };
-
   const SortIcon = ({ field }) => {
     if (sortField !== field) return <span className="ml-1 text-[#c9a66b] opacity-40">↕</span>;
     return sortAsc
@@ -239,20 +221,10 @@ const MenuManagementPage = () => {
       title="Menu Management"
       subtitle={`${products.length} products across ${CATEGORY_LIST.length} categories`}
       actions={
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleSeedMenu}
-            disabled={seeding}
-            className="btn-secondary inline-flex items-center gap-2 py-2.5 text-sm disabled:opacity-60"
-          >
-            <Database className="h-4 w-4" />
-            {seeding ? 'Seeding…' : 'Seed Menu'}
-          </button>
-          <button onClick={openAdd} className="btn-primary inline-flex items-center gap-2 py-2.5">
-            <Plus className="h-4 w-4" />
-            Add Item
-          </button>
-        </div>
+        <button onClick={openAdd} className="btn-primary inline-flex items-center gap-2 py-2.5">
+          <Plus className="h-4 w-4" />
+          Add Item
+        </button>
       }
     >
       {showForm && (
@@ -307,7 +279,7 @@ const MenuManagementPage = () => {
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <Package className="h-12 w-12 text-[#fde68a]" />
           <p className="mt-4 font-semibold text-[#6b241d]">No items found</p>
-          <p className="mt-1 text-sm text-[#a16207]">Try a different search or category, or seed the menu.</p>
+          <p className="mt-1 text-sm text-[#a16207]">Try a different search or category, or add a new item.</p>
         </div>
       ) : (
         <div className="overflow-hidden rounded-2xl border border-[#fde68a] bg-white shadow-sm">
