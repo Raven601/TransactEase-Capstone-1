@@ -39,6 +39,21 @@ export default defineConfig(async () => {
     build: {
       outDir: path.resolve(import.meta.dirname, "dist/public"),
       emptyOutDir: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            "vendor-react": ["react", "react-dom", "react-router-dom"],
+            "vendor-firebase": [
+              "firebase/app",
+              "firebase/auth",
+              "firebase/firestore",
+            ],
+            "vendor-charts": ["recharts"],
+            "vendor-motion": ["framer-motion"],
+            "vendor-qr": ["html5-qrcode", "qrcode"],
+          },
+        },
+      },
     },
     server: {
       port,
