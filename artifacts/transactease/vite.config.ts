@@ -16,6 +16,14 @@ if (!isBuilding && (!rawPort || Number.isNaN(port) || port <= 0)) {
 
 const basePath = process.env.BASE_PATH ?? "/";
 
+// During a Vercel build the repo root is the working directory, so we write
+// the output to <repo-root>/dist where Vercel's "vite" framework preset
+// expects to find it.  During local dev we keep the output inside the package
+// so the dev workflow stays self-contained.
+const outDir = isBuilding
+  ? path.resolve(import.meta.dirname, "../../dist")
+  : path.resolve(import.meta.dirname, "dist");
+
 export default defineConfig(async () => {
   const plugins = [react(), tailwindcss()];
 
@@ -37,7 +45,7 @@ export default defineConfig(async () => {
     },
     root: path.resolve(import.meta.dirname),
     build: {
-      outDir: path.resolve(import.meta.dirname, "dist"),
+      outDir,
       emptyOutDir: true,
       rollupOptions: {
         output: {

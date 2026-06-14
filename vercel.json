@@ -1,7 +1,7 @@
 {
   "framework": "vite",
   "buildCommand": "pnpm --filter @workspace/transactease run build",
-  "outputDirectory": "artifacts/transactease/dist",
+  "outputDirectory": "dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
