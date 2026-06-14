@@ -1,0 +1,1 @@
+- [Vercel + pnpm monorepo deployment](vercel-pnpm-monorepo.md) — framework:"vite" + outDir to repo root; null framework causes Node.js server detection.
