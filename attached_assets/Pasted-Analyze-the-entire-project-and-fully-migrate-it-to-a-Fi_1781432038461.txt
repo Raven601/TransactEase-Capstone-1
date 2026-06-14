@@ -1,0 +1,49 @@
+Analyze the entire project and fully migrate it to a Firebase-based architecture. The final output must be deployable on Vercel.
+
+🚨 Core Requirement
+
+Completely REMOVE all PHP and MySQL dependencies and logic from the project. This includes:
+
+Any .php files
+Any PHP backend logic or API endpoints
+Any MySQL queries, connections, or database configurations
+Any XAMPP, localhost MySQL references
+Any database schema files related to MySQL
+🔄 Migration Tasks
+Replace all backend logic previously handled by PHP/MySQL with Firebase services:
+Firebase Authentication for login/signup
+Firebase Firestore (or Realtime Database) for all data storage
+Firebase Storage if file uploads exist
+Update all frontend API calls:
+Remove PHP endpoints (e.g., /api/*.php)
+Replace with Firebase SDK calls
+Install and configure Firebase properly:
+Add Firebase SDK initialization file (e.g., firebase.js or firebaseConfig.js)
+Ensure environment variables are used for Firebase config keys
+Refactor authentication system:
+Replace any custom PHP login system with Firebase Auth
+Maintain session persistence using Firebase Auth state listener
+Update database logic:
+Convert MySQL table-based logic into Firestore collections/documents
+Ensure data structure is clean and scalable
+Clean project structure:
+Remove /php, /server, or backend folders related to PHP
+Remove unused MySQL libraries or dependencies
+Ensure Vercel compatibility:
+Frontend must be static or React/Vite/Next.js compatible
+No server-required backend should remain
+Add or update vercel.json if needed
+📦 Output Requirements
+
+Provide:
+
+Fully cleaned project (no PHP/MySQL remnants)
+Firebase-integrated version of all features
+Updated folder structure
+Updated package.json (if needed)
+Firebase setup instructions (what keys go into env variables)
+⚠️ Important Rules
+Do NOT keep any PHP fallback or hybrid backend
+Do NOT keep MySQL code commented out
+Ensure everything is fully Firebase-native
+The final project must deploy successfully on Vercel without backend errors

@@ -1,0 +1,77 @@
+Analyze the entire project and prepare it for production deployment on Vercel using Firebase as the only backend.
+
+🧠 IMPORTANT WORKFLOW (DO NOT SKIP)
+
+Before making any changes:
+
+Inspect the current working application state
+Identify what features are currently working (especially Firebase auth, database, UI flow)
+Treat this as the BASELINE VERSION (must be preserved mentally for comparison)
+⚙️ MAIN TASK: CONVERT & CLEAN PROJECT
+
+Refactor and clean the project so it becomes:
+
+Fully Firebase-based (no PHP, MySQL, or any non-Firebase backend)
+Fully Vercel-compatible (frontend-only deployable app)
+Stable and production-ready
+🔥 CLEANUP REQUIREMENTS
+
+Remove:
+
+All PHP files and logic
+All MySQL or database code not related to Firebase
+Any unused or orphaned backend code
+Any APIs not connected to Firebase
+
+Keep ONLY:
+
+Firebase Authentication
+Firestore / Realtime Database integration
+Firebase Storage (if used)
+Active frontend components used in the app flow
+🧩 FIX BUILD ISSUES
+
+Ensure the project successfully builds for Vercel:
+
+Fix:
+
+Missing dependencies (clsx, tailwind-merge, etc.)
+Missing React type declarations (@types/react, @types/react-dom)
+TypeScript errors (implicit any, broken imports)
+Any tsc --noEmit failures
+
+Ensure pnpm run build completes successfully.
+
+☁️ VERCEL COMPATIBILITY
+
+Ensure:
+
+No PHP backend remains
+No MySQL or external server dependency remains
+Project is fully frontend-compatible (React / Vite / Next.js)
+Firebase handles all backend logic
+🧪 AFTER CONVERSION REQUIREMENT (CRITICAL)
+
+After completing all changes:
+
+Re-test the full application
+Verify Firebase features still work:
+Authentication (login/register)
+Database reads/writes
+Dashboard functionality
+Confirm UI navigation still works
+
+If anything breaks, fix it immediately before finishing.
+
+🚀 FINAL GOAL
+
+The final result must:
+
+Match original functionality (no feature loss)
+Be fully Firebase-powered
+Pass pnpm run build without errors
+Deploy successfully on Vercel on first attempt
+Be clean, minimal, and production-ready
+⚠️ STRICT RULE
+
+Do NOT introduce new features. Only clean, fix, and prepare for deployment.

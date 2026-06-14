@@ -1,6 +1,7 @@
 {
-  "buildCommand": "pnpm run build",
-  "outputDirectory": "dist/public",
+  "installCommand": "npm install -g pnpm && pnpm install",
+  "buildCommand": "pnpm --filter @workspace/transactease run build",
+  "outputDirectory": "artifacts/transactease/dist/public",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
