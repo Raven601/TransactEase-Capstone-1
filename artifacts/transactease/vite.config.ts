@@ -3,12 +3,10 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
-const isBuilding = process.env.npm_lifecycle_event === "build";
-
 const rawPort = process.env.PORT;
 const port = rawPort ? Number(rawPort) : 5173;
 
-if (!isBuilding && (!rawPort || Number.isNaN(port) || port <= 0)) {
+if (process.env.npm_lifecycle_event !== "build" && (!rawPort || Number.isNaN(port) || port <= 0)) {
   throw new Error(
     `PORT environment variable is required for dev/preview but was not provided (got: "${rawPort}").`,
   );
@@ -16,18 +14,13 @@ if (!isBuilding && (!rawPort || Number.isNaN(port) || port <= 0)) {
 
 const basePath = process.env.BASE_PATH ?? "/";
 
-// During a Vercel build the repo root is the working directory, so we write
-// the output to <repo-root>/dist where Vercel's "vite" framework preset
-// expects to find it.  During local dev we keep the output inside the package
-// so the dev workflow stays self-contained.
-const outDir = isBuilding
-  ? path.resolve(import.meta.dirname, "../../dist")
-  : path.resolve(import.meta.dirname, "dist");
+// Always output to ./dist - works for both local and Vercel builds
+const outDir = path.resolve(import.meta.dirname, "dist");
 
 export default defineConfig(async () => {
   const plugins = [react(), tailwindcss()];
 
-  if (!isBuilding) {
+  if (process.env.npm_lifecycle_event !== "build") {
     const { default: runtimeErrorOverlay } = await import(
       "@replit/vite-plugin-runtime-error-modal"
     );
@@ -76,4 +69,3 @@ export default defineConfig(async () => {
     },
   };
 });
-
