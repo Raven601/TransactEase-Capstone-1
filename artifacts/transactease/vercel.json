@@ -1,0 +1,4 @@
+{
+  "buildCommand": "cd ../.. && pnpm --filter @workspace/transactease run build",
+  "outputDirectory": "artifacts/transactease/dist"
+}
