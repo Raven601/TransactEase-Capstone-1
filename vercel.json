@@ -1,1 +1,1 @@
-﻿{"$schema":"https://openapi.vercel.sh/vercel.json","version":3,"framework":null,"buildCommand":"pnpm --dir artifacts/transactease run build","outputDirectory":"dist","rewrites":[{"source":"/(.*)","destination":"/index.html"}]}
+{"$schema":"https://openapi.vercel.sh/vercel.json","version":3,"framework":null,"buildCommand":"pnpm --dir artifacts/transactease run build","outputDirectory":"dist","rewrites":[{"source":"/(.*)","destination":"/index.html"}]}
