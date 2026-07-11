@@ -4,18 +4,13 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
 const rawPort = process.env.PORT;
-const port = rawPort ? Number(rawPort) : 5173;
-
-if (process.env.npm_lifecycle_event !== "build" && (!rawPort || Number.isNaN(port) || port <= 0)) {
-  throw new Error(
-    `PORT environment variable is required for dev/preview but was not provided (got: "${rawPort}").`,
-  );
-}
+const preferredPort = rawPort ? Number(rawPort) : 5173;
+const resolvedPort = Number.isFinite(preferredPort) && preferredPort > 0 ? preferredPort : 5173;
 
 const basePath = process.env.BASE_PATH ?? "/";
 
-// Always output to ./dist - works for both local and Vercel builds
-const outDir = path.resolve(import.meta.dirname, "dist");
+const isBuild = process.env.npm_lifecycle_event === "build";
+const outDir = path.resolve(import.meta.dirname, isBuild ? "../../dist" : "dist");
 
 export default defineConfig(async () => {
   const plugins = [react(), tailwindcss()];
@@ -57,13 +52,13 @@ export default defineConfig(async () => {
       },
     },
     server: {
-      port,
-      strictPort: true,
+      port: resolvedPort,
+      strictPort: false,
       host: "0.0.0.0",
       allowedHosts: true,
     },
     preview: {
-      port,
+      port: resolvedPort,
       host: "0.0.0.0",
       allowedHosts: true,
     },

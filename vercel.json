@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "framework": "vite",
+  "buildCommand": "pnpm --filter @workspace/transactease run build",
+  "outputDirectory": "dist",
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/" }
+  ]
+}
