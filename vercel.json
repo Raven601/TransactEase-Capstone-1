@@ -1,13 +1,1 @@
-﻿{
-    "framework":  null,
-    "version":  3,
-    "buildCommand":  "pnpm --dir artifacts/transactease run build",
-    "outputDirectory":  "dist",
-    "rewrites":  [
-                     {
-                         "destination":  "/index.html",
-                         "source":  "/(.*)"
-                     }
-                 ],
-    "$schema":  "https://openapi.vercel.sh/vercel.json"
-}
+﻿{"$schema":"https://openapi.vercel.sh/vercel.json","version":3,"framework":null,"buildCommand":"pnpm --dir artifacts/transactease run build","outputDirectory":"dist","rewrites":[{"source":"/(.*)","destination":"/index.html"}]}
